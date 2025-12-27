@@ -6,7 +6,7 @@ def test_word_count():
 
 def test_empty_text():
     ta = TextAnalyzer()
-    assert ta.count_words("") == 0
+    assert ta.count_word("") == 0
 
 # def test_strange_character():
 #     ta = TextAnalyzer()
