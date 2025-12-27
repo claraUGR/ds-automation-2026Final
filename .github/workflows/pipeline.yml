@@ -1,0 +1,38 @@
+name: CI/CD Pipeline DS 2026
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Copia el codigo del repositorio"
+        uses: actions/checkout@v4
+      
+      - name: "Configura Python 3.13"
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+
+      - name: "Instala las librerias necesarias"
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          
+      - name: "Ejecuta los tests de Q1 y Q2"
+        run: python -m pytest
+
+      - name: "Analisis de seguridad SAST (Q4)"
+        run: |
+          pip install bandit
+          bandit -r app/
+
+      - name: "Simulacion de Despliegue (CD)"
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "Desplegando la nueva feature..."
+          echo "App: Analizador de Texto v1.0"
